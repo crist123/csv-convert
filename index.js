@@ -1,7 +1,6 @@
 'use strict'
 
 const fs = require('fs');
-const path = require('path');
 const csv = require('fast-csv');
 const yargs = require('yargs/yargs')
 const { hideBin } = require('yargs/helpers')
@@ -48,11 +47,15 @@ fs.createReadStream(argv.file)
         }
     })
     .on('end', (rowCount) => {
-        fs.writeFile(name + '.' + format,
+
+        // Si a carpeta no existe
+        if (!fs.existsSync('./exported')) fs.mkdirSync('./exported');
+
+        fs.writeFile(`./exported/${name}.${format}`,
             format == 'sql' ? sql.replace('{value}', values.join(',\n')) : JSON.stringify(values, null, "\t"),
             function (err) {
                 if (err) throw err;
-                console.log(`CSV Exported in ${name}.${format} file`);
+                console.log(`CSV Exported in exported/${name}.${format} file`);
             });
         console.log(`Parsed ${rowCount} rows`)
     });

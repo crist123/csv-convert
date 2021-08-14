@@ -1,4 +1,5 @@
-exported.json
-exported.sql
-package-lock.json
+# folder exported
+exported
+# dependencies folder
 node_modules
+package-lock.json
